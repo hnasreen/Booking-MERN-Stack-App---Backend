@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 const app = express();
 import morgan  from 'morgan';
 import connectDb from './db.js';
-import authRoutes from '../server/authRoutes.js';
+import authRoutes from './authRoutes.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser'
 
