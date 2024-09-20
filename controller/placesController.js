@@ -1,6 +1,7 @@
 import Place from '../models/place.js'
 import cloudinary from '../config/CloudinaryConfig.js'; 
 // import fs from 'fs/promises'; 
+import stream from 'stream'
 
 
 
@@ -26,25 +27,19 @@ export const uploadController = async (req, res) => {
 
     // const filePath = req.file.path;
 
-    // Upload the file to Cloudinary
     const result = await cloudinary.uploader.upload_stream( {
       folder: 'mern_booking',
       resource_type: 'image',
     });
 
-    // Store the secure URL from Cloudinary
     uploadedFiles.push(result.secure_url);
 
-    // Delete the file from the uploads folder after successful upload
     // await fs.unlink(filePath);
 
     res.json(uploadedFiles);
-        // Using Node.js streams to process the file from memory buffer
-        const stream = require('stream');
+  
         const bufferStream = new stream.PassThrough();
         bufferStream.end(req.file.buffer);
-    
-        // Pipe the file buffer to Cloudinary's upload stream
         bufferStream.pipe(result);
     
         
