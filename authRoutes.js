@@ -4,9 +4,7 @@ import { getplaceController, placeController, placesController, putplaceControll
 import { bookingController, getbookingsController } from './controller/bookingController.js';
 import { authMiddleware } from './Middleware/authMiddleware.js';
 import multer from 'multer';
-// import path from 'path';
 
-// Define storage for multer
 const storage = multer.memoryStorage();
 
 const upload = multer({ storage });

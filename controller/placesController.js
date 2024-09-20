@@ -1,7 +1,6 @@
 import Place from '../models/place.js'
 import cloudinary from '../config/CloudinaryConfig.js'; 
-// import fs from 'fs/promises'; 
-import stream from 'stream'
+
 
 
 
@@ -19,29 +18,25 @@ export const uploadbylinkController = async (req, res) => {
 }
 
 export const uploadController = async (req, res) => {
-  const uploadedFiles = [];
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    // const filePath = req.file.path;
-
-    const result = await cloudinary.uploader.upload_stream( {
+    // Convert the buffer to base64
+    const b64 = Buffer.from(req.file.buffer).toString("base64");
+    
+    // Create a Data URI from the base64 string
+    let dataURI = `data:${req.file.mimetype};base64,${b64}`;
+    
+    // Upload the dataURI to Cloudinary
+    const cldRes = await cloudinary.uploader.upload(dataURI, {
       folder: 'mern_booking',
       resource_type: 'image',
     });
 
-    uploadedFiles.push(result.secure_url);
-
-    // await fs.unlink(filePath);
-
-    res.json(uploadedFiles);
-  
-        const bufferStream = new stream.PassThrough();
-        bufferStream.end(req.file.buffer);
-        bufferStream.pipe(result);
-    
+    // Respond with the Cloudinary upload result
+    res.json(cldRes);
         
   } catch (error) {
     res.status(500).json({ error: error.message });
