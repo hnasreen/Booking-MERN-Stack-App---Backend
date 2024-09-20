@@ -4,19 +4,10 @@ import { getplaceController, placeController, placesController, putplaceControll
 import { bookingController, getbookingsController } from './controller/bookingController.js';
 import { authMiddleware } from './Middleware/authMiddleware.js';
 import multer from 'multer';
-import path from 'path';
+// import path from 'path';
 
 // Define storage for multer
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    const fileName = `${file.fieldname}-${Date.now()}${ext}`;
-    cb(null, fileName); // Give file its original name + extension
-  },
-});
+const storage = multer.memoryStorage();
 
 const upload = multer({ storage });
 
