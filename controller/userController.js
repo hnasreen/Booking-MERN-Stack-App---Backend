@@ -56,7 +56,9 @@ export const loginController = async (req, res) => {
 }
 
 export const profileController = async (req, res) => {
-const {token} = req.cookies;
+// const {token} = req.cookies;
+const {token}=req?.headers?.authorization?.split(' ')[1]
+
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, {}, async (err, userData) => {
       if (err) 
